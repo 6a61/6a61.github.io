@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport content="width=device-width, initial-scale=1.0">
+		<style>
+			@font-face {
+				font-family: IBMVGA8;
+				src: url(web_ibm_vga_8x16.woff) format('woff');
+				font-weight: 400;
+				font-style: normal
+			}
+
+			html, body { height: 100%; margin: 0; }
+
+			body {
+				background: #000;
+				color: #fff;
+				font-family: IBMVGA8, monospace;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-flow: column;
+			}
+
+			#logo {
+				font-family: IBMVGA8, monospace;
+				margin: 0;
+				cursor: default;
+				background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+				background-clip: text;
+				color: transparent;
+				line-height: 1;
+			}
+
+			@keyframes chyron-bounce {
+				0%  { transform: translateY(0); }
+				50%  { transform: translateY(50%); }
+				100% { transform: translateY(0); }
+			}
+
+			@keyframes chyron-scroll {
+				from   { transform: translateX(100%); }
+				to  { transform: translateX(-100%); }
+			}
+
+			#chyron {
+				font-family: IBMVGA8, monospace;
+				border: 1px none #fff;
+				position: relative;
+				width: calc(54 * 8px);
+				overflow: hidden;
+				animation-name: chyron-bounce;
+				animation-duration: 0.8s;
+				animation-iteration-count: infinite;
+				animation-timing-function: ease-in-out;
+			}
+
+			#chyron > * {
+				font-family: IBMVGA8, monospace;
+				white-space: nowrap;
+				animation-timing-function: linear;
+				width: fit-content;
+				min-width: 100%;
+			}
+
+			#background {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				z-index: -10;
+			}
+
+			@keyframes background-star {
+				from  { transform: translateX(0); }
+				to    { transform: translateX(100%);}
+			}
+
+			.background-star {
+				font-family: IBMVGA8, monospace;
+				position: fixed;
+				animation-name: background-star;
+				animation-duration: 2s;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+				width: 100%;
+				z-index: -5;
+			}
+
+			#links {
+				margin-top: 24px;
+			}
+
+			#links > *:first-child::before {
+				content: '[';
+				margin: 0 16px;
+			}
+
+			#links > *:last-child::after {
+				content: ']';
+				margin: 0 16px;
+			}
+
+			#links > * {
+				text-decoration: none;
+			}
+
+			#links > *::after {
+				content: "|";
+				margin: 0 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="background"></div>
+		<pre id="logo">
+
+░░▒█░█░▒█░█▀▀▄░█▀▀▄░░░█▀▀▄░█▀▀▄░▀█▀░▄▀▀▄░█▀▀▄░░▀░░▄▀▀▄
+░░▒█░█░▒█░█▄▄█░█░▒█░░▒█▄▄█░█░▒█░░█░░█░░█░█░▒█░░█▀░█░░█
+█▄▄█░░▀▀▀░▀░░▀░▀░░▀░░▒█░▒█░▀░░▀░░▀░░░▀▀░░▀░░▀░▀▀▀░░▀▀░
+		</pre>
+		<div id="chyron">
+			<template id="phrases">
+				<div>emulating the pros since 1995+1</div>
+				<div>ciao gab, che trovi le mie cose</div>
+				<div>hooray, procrastination!</div>
+				<div>made in italy</div>
+			</template>
+		</div>
+		<div id="links">
+			<a href="/blog">blog</a>
+			<a href="https://github.com/jacorsca">github</a>
+			<a href="/w95.css">w95.css</a>
+		</div>
+	</body>
+	<script>
+		let phrases = document.createElement("div");
+		phrases.append(document.getElementById("phrases").content.cloneNode(true));
+
+		let marquee = document.createElement("div");
+		document.getElementById("chyron").insertBefore(marquee, document.getElementById("chyron").firstChild);
+
+		function changePhrase() {
+			let randomInt = Math.floor(Math.random() * phrases.children.length);
+			let randomPhrase = phrases.children[randomInt].textContent;
+
+			// Don't repeat phrases more than once
+
+			while (randomPhrase == marquee.textContent && phrases.children.length > 1) {
+				randomInt = Math.floor(Math.random() * phrases.children.length);
+				randomPhrase = phrases.children[randomInt].textContent;
+			}
+
+			marquee.textContent = randomPhrase;
+
+			const keyframes = [
+				{ transform: "translateX(100%)" },
+				{ transform: "translateX(-100%)"}
+			];
+
+			const timing = {
+				duration: randomPhrase.length * 0.22 * 1000,
+				iterations: 1
+			};
+
+			marquee.animate(keyframes, timing).onfinish = () => {
+				changePhrase();
+			};
+		};
+
+		changePhrase();
+
+		//================================================================================
+
+
+		let background = document.getElementById("background");
+
+		function createStar(animationTime) {
+			let star = document.createElement("div");
+			star.className = "background-star";
+			star.textContent = "♦";
+
+			let animationDelay = Math.random() * animationTime;
+			star.style.animationDuration = animationTime + "s";
+			star.style.animationDelay = -animationDelay + "s";
+
+			return star;
+		}
+
+		for (let i = 0; i < 50; ++i) {
+			let topOffset = Math.random() * 100;
+			let star = createStar(8);
+			star.style.top = topOffset + "vh";
+
+			background.appendChild(star);
+		}
+
+		for (let i = 0; i < 100; ++i) {
+			let topOffset = Math.random() * 100;
+			let star = createStar(16);
+			star.style.top = topOffset + "vh";
+			star.style.color = "#808080";
+
+			background.appendChild(star);
+		}
+
+		for (let i = 0; i < 200; ++i) {
+			let topOffset = Math.random() * 100;
+			let star = createStar(32);
+			star.style.top = topOffset + "vh";
+			star.style.color = "#404040";
+
+			background.appendChild(star);
+		}
+
+	</script>
+</html>
