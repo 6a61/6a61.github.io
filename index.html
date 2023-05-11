@@ -36,8 +36,10 @@
 			}
 
 			@keyframes chyron-bounce {
-				0%  { transform: translateY(0); }
-				50%  { transform: translateY(50%); }
+				0%   { transform: translateY(0); }
+				25%  { transform: translateY(33%); }
+				50% { transform: translateY(0); }
+				75%  { transform: translateY(33%); }
 				100% { transform: translateY(0); }
 			}
 
@@ -130,6 +132,7 @@
 				<div>made in italy</div>
 				<div>the answer is 42</div>
 				<div>stay hydrated</div>
+				<div>100% electrolyte free</div>
 			</template>
 		</div>
 		<div id="links">
@@ -164,7 +167,7 @@
 			];
 
 			const timing = {
-				duration: randomPhrase.length * 0.22 * 1000,
+				duration: 5 * 1000,
 				iterations: 1
 			};
 
