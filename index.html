@@ -5,116 +5,7 @@
 		<meta name="viewport content="width=device-width, initial-scale=1.0">
 		<title>Juan Antonio</title>
 		<meta name="description" content="Emulating the pros since 1995+1. A personal page about nothing. The answer is 42.">
-		<style>
-			@font-face {
-				font-family: IBMVGA8;
-				src: url(web_ibm_vga_8x16.woff) format('woff');
-				font-weight: 400;
-				font-style: normal
-			}
-
-			html, body { height: 100%; margin: 0; }
-
-			body {
-				background: #000;
-				color: #fff;
-				font-family: IBMVGA8, monospace;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				flex-flow: column;
-			}
-
-			#logo {
-				font-family: IBMVGA8, monospace;
-				margin: 0;
-				cursor: default;
-				background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-				background-clip: text;
-				color: transparent;
-				line-height: 1;
-			}
-
-			@keyframes chyron-bounce {
-				0%   { transform: translateY(0); }
-				25%  { transform: translateY(33%); }
-				50% { transform: translateY(0); }
-				75%  { transform: translateY(33%); }
-				100% { transform: translateY(0); }
-			}
-
-			@keyframes chyron-scroll {
-				from   { transform: translateX(100%); }
-				to  { transform: translateX(-100%); }
-			}
-
-			#chyron {
-				font-family: IBMVGA8, monospace;
-				border: 1px none #fff;
-				position: relative;
-				width: calc(54 * 8px);
-				overflow: hidden;
-				animation-name: chyron-bounce;
-				animation-duration: 0.8s;
-				animation-iteration-count: infinite;
-				animation-timing-function: ease-in-out;
-			}
-
-			#chyron > * {
-				font-family: IBMVGA8, monospace;
-				white-space: nowrap;
-				animation-timing-function: linear;
-				width: fit-content;
-				min-width: 100%;
-				color: #ffd54f;
-			}
-
-			#background {
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				z-index: -10;
-			}
-
-			@keyframes background-star {
-				from  { transform: translateX(0); }
-				to    { transform: translateX(100%);}
-			}
-
-			.background-star {
-				font-family: IBMVGA8, monospace;
-				position: fixed;
-				animation-name: background-star;
-				animation-duration: 2s;
-				animation-iteration-count: infinite;
-				animation-timing-function: linear;
-				width: 100%;
-				z-index: -5;
-			}
-
-			#links {
-				margin-top: 24px;
-			}
-
-			#links > *:first-child::before {
-				content: '[';
-				margin: 0 16px;
-			}
-
-			#links > *:last-child::after {
-				content: ']';
-				margin: 0 16px;
-			}
-
-			#links > * {
-				text-decoration: none;
-			}
-
-			#links > *::after {
-				content: "|";
-				margin: 0 16px;
-			}
-		</style>
+		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
 		<div id="background"></div>
@@ -133,7 +24,12 @@
 				<div>the answer is 42</div>
 				<div>stay hydrated</div>
 				<div>100% electrolyte free</div>
+				<div>you know those very long dedications on the demoscene? well it's pretty much like this but even worse</div>
+				<div>this lags on firefox!</div>
+				<div>the logo is broken on edge!</div>
 			</template>
+
+			<canvas id="canvas" width="320" height="320"></canvas>
 		</div>
 		<div id="links">
 			<a href="/blog">blog</a>
@@ -142,15 +38,15 @@
 		</div>
 	</body>
 	<script>
-		let phrases = document.createElement("div");
+		const phrases = document.createElement("div");
 		phrases.append(document.getElementById("phrases").content.cloneNode(true));
 
-		let marquee = document.createElement("div");
+		const marquee = document.createElement("div");
 		document.getElementById("chyron").insertBefore(marquee, document.getElementById("chyron").firstChild);
 
 		function changePhrase() {
-			let randomInt = Math.floor(Math.random() * phrases.children.length);
-			let randomPhrase = phrases.children[randomInt].textContent;
+			const randomInt = Math.floor(Math.random() * phrases.children.length);
+			const randomPhrase = phrases.children[randomInt].textContent;
 
 			// Don't repeat phrases more than once
 
@@ -159,7 +55,25 @@
 				randomPhrase = phrases.children[randomInt].textContent;
 			}
 
-			marquee.textContent = randomPhrase;
+			marquee.innerHTML = "";
+
+			for (const i in randomPhrase) {
+				const c = randomPhrase[i];
+				const span = document.createElement("span");
+
+				switch (c) {
+				case ' ':
+					span.innerHTML = '&nbsp;';
+					break;
+				default:
+					span.innerHTML = c;
+					break;
+				}
+
+				span.style.animationDelay = -(20 * i) + "ms";
+
+				marquee.append(span);
+			}
 
 			const keyframes = [
 				{ transform: "translateX(100%)" },
@@ -167,7 +81,7 @@
 			];
 
 			const timing = {
-				duration: 5 * 1000,
+				duration: Math.max(100 * marquee.childElementCount, 5000),
 				iterations: 1
 			};
 

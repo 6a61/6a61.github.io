@@ -1,0 +1,124 @@
+/*== Fonts ===================================================================*/
+
+@font-face {
+	font-family: IBMVGA8;
+	src: url(web_ibm_vga_8x16.woff) format('woff');
+	font-weight: 400;
+	font-style: normal
+}
+
+/*== Animations ==============================================================*/
+
+@keyframes chyron-bounce {
+	0%   { transform: translateY(0); }
+	25%  { transform: translateY(100%); }
+	50% { transform: translateY(0); }
+	75%  { transform: translateY(100%); }
+	100% { transform: translateY(0); }
+}
+
+@keyframes chyron-scroll {
+	from   { transform: translateX(100%); }
+	to  { transform: translateX(-100%); }
+}
+
+
+@keyframes background-star {
+	from  { transform: translateX(0); }
+	to    { transform: translateX(100%);}
+}
+
+/*== Stylesheet ==============================================================*/
+
+html, body { height: 100%; margin: 0; }
+
+body {
+	background: #000;
+	color: #fff;
+	font-family: IBMVGA8, monospace;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column;
+}
+
+#logo {
+	font-family: IBMVGA8, monospace;
+	margin: 0;
+	cursor: default;
+	background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+	background-clip: text;
+	color: transparent;
+	line-height: 1;
+}
+
+#chyron {
+	font-family: IBMVGA8, monospace;
+	border: 1px none #fff;
+	position: relative;
+	width: calc(54 * 8px);
+	overflow: hidden;
+	/* animation-name: chyron-bounce; */
+	animation-duration: 0.8s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+	height: 54px;
+}
+
+#chyron > * {
+	font-family: IBMVGA8, monospace;
+	white-space: nowrap;
+	animation-timing-function: linear;
+	width: fit-content;
+	min-width: 100%;
+	color: #ffd54f;
+}
+
+#chyron > * > * {
+	display: inline-block;
+	animation-name: chyron-bounce;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+}
+
+#background {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: -10;
+}
+
+.background-star {
+	font-family: IBMVGA8, monospace;
+	position: fixed;
+	animation-name: background-star;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	width: 100%;
+	z-index: -5;
+}
+
+#links {
+	margin-top: 24px;
+}
+
+#links > *:first-child::before {
+	content: '[';
+	margin: 0 16px;
+}
+
+#links > *:last-child::after {
+	content: ']';
+	margin: 0 16px;
+}
+
+#links > * {
+	text-decoration: none;
+}
+
+#links > *::after {
+	content: "|";
+	margin: 0 16px;
+}
