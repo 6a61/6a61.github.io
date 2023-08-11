@@ -92,7 +92,7 @@ body {
 	animation-timing-function: linear;
 	width: fit-content;
 	min-width: 100%;
-	color: #fff;
+	color: var(--miky-yellow);
 }
 
 #chyron > * > * {
@@ -124,20 +124,29 @@ body {
 	display: flex;
 	flex-flow: column;
 	margin-top: 24px;
-	font-family: 'IBM VGA 8x16-2x', sans-serif;
+	font-family: 'IBM VGA 8x16', sans-serif;
 }
 
 #links > a:link,
 #links > a:visited {
 	position: relative;
-	color: var(--miky-yellow);
 	text-decoration: none;
+
+	background-image: linear-gradient(to bottom, #000000, #ff00ff, #ffffff 9px, #333333 9px, #ff00ff, #ffffff);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	font-family: 'IBM VGA 8x16-2x', sans-serif;
 }
 
 #links > a:hover::before {
-	content: ">>";
+	content: "\25ba";
 	position: absolute;
 	top: 0;
-	left: -48px;
+	left: -32px;
 	font-family: 'IBM VGA 8x16-2x', sans-serif;
+	background-image: linear-gradient(to bottom, #000000, #ff00ff, #ffffff 9px, #444444 9px, #ff00ff, #ffffff);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
 }
