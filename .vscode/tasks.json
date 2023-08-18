@@ -1,0 +1,43 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Sass: Watch stylesheet",
+			"type": "shell",
+			"command": "sass --no-source-map --watch styles/scss/main.scss styles/main.css || echo 0",
+			"isBackground": true,
+			"presentation": {
+				"group": "Pinguin",
+				"close": true,
+				"showReuseMessage": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Python: Web server",
+			"type": "shell",
+			"command": "python -m http.server ${input:port} || echo 0",
+			"isBackground": true,
+			"presentation": {
+				"group": "Pinguin",
+				"close": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Live demo",
+			"dependsOn": [ "Python: Web server", "Sass: Watch stylesheet" ],
+			"problemMatcher": [],
+		}
+	],
+	"inputs": [
+		{
+			"id": "port",
+			"type": "promptString",
+			"description": "Web server port",
+			"default": "8000"
+		}
+	]
+}
