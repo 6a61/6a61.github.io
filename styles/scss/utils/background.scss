@@ -1,0 +1,17 @@
+@mixin pattern($path, $opacity: 0.08) {
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		min-width: 100%;
+		min-height: 100%;
+		background-image: url($path);
+		opacity: $opacity;
+		z-index: -1;
+
+		@content;
+	}
+}

@@ -1,0 +1,198 @@
+@use "sass:color";
+@use "utils/background";
+@use "utils/breakpoints";
+@use "utils/reset";
+@use "utils/animations";
+@use "utils/flex";
+@use "widgets";
+
+@import url(../fonts/goldfish/goldfish.css);
+@import url(../fonts/ibm-vga-8x16/font.css);
+
+body {
+	@include background.pattern("../images/graph-paper-white.svg", 0.08) {
+		box-shadow: inset 0 0 256px 128px #000;
+	}
+
+	background-color: #111111;
+	color: #cccccc;
+	font-family: 'Volter', sans-serif;
+	font-size: 9px;
+
+	display: flex;
+}
+
+#wrapper {
+	position: relative;
+	display: flex;
+	flex-flow: column;
+	margin: 0 auto;
+	max-width: 920px;
+	justify-content: center;
+	align-items: center;
+	min-height: 100%;
+}
+
+pinguin-window {
+	@include widgets.card(#222);
+
+	display: block;
+	border-radius: 4px;
+}
+
+#version {
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	padding: 16px;
+	margin: 16px;
+
+	> * {
+		user-select: none;
+		pointer-events: none;
+	}
+
+	h1 {
+		font-size: 18px;
+	}
+
+	.three-60-no-scope {
+		pointer-events: initial;
+	}
+}
+
+#pet {
+	@include widgets.card(#222);
+	margin: 16px;
+}
+
+#pet > header {
+	display: flex;
+	align-items: center;
+	padding: 0 8px;
+	min-height: 24px;
+	font-weight: bold;
+	@include widgets.card(#333, 0px);
+	border-radius: 4px 4px 0 0;
+}
+
+#pet-canvas {
+	@include widgets.card-concave(#8f9779);
+	margin: 16px 16px 8px 16px;
+	border-radius: 4px;
+}
+
+#pet-clean {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	@include widgets.button(#47abcc);
+	border-radius: 4px;
+	border: none;
+	margin: 0 16px 16px 16px;
+	padding: 4px;
+	color: #fff;
+}
+
+@keyframes logo-color {
+	from { background-position-x: 0%; }
+	from { background-position-x: 100%; }
+}
+
+@keyframes logo-star {
+	from  { transform: translateX(-100%); }
+	to    { transform: translateX(100%);}
+}
+
+#logo {
+	@include widgets.card(#000);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	margin: 16px;
+	position: relative;
+
+	@include breakpoints.phone-only {
+		order: -1;
+	}
+}
+
+#logo > pre {
+	position: relative;
+	font-family: 'IBM VGA 8x16', monospace;
+	font-size: 16px;
+	line-height: 1;
+	cursor: default;
+	background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet,
+							red, orange, yellow, green, blue, indigo, violet, red);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	line-height: 1;
+	animation: logo-color 1s linear 0s infinite;
+	background-size: 200% 100%;
+	pointer-events: none;
+}
+
+#logo > .star {
+	font-family: 'IBM VGA 8x16', monospace;
+	font-size: 16px;
+	color: #fff;
+	position: absolute;
+	animation-name: logo-star;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	width: 100%;
+	text-shadow: 0 0 4px blue;
+	opacity: 0.8;
+	pointer-events: none;
+}
+
+#logo #logo-max {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+}
+
+#links {
+	@include widgets.card(#eee);
+	margin: 16px;
+	min-width: 100px;
+	color: #111;
+
+	@include background.pattern("../images/graph-paper.svg", 0.16);
+}
+
+#links > header {
+	@include widgets.card(#222, 0px);
+	color: #ccc;
+	display: flex;
+	align-items: center;
+	height: 24px;
+	border-radius: 4px 4px 0 0;
+	padding: 0 8px;
+	font-weight: bold;
+	user-select: none;
+}
+
+#links > ul {
+	padding: 0 16px;
+}
+
+#links a:link {
+	color: inherit;
+}
+
+span.three-60-no-scope {
+	display: inline-block;
+	transition: transform 480ms;
+	pointer-events: all;
+
+	&:hover {
+		transform: rotate(360deg) scale(4, 4);
+	}
+}

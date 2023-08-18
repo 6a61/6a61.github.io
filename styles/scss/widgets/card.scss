@@ -1,0 +1,45 @@
+@use "sass:color";
+
+@mixin card($base-color: #ccc, $elevation: 1px) {
+	$light:  color.scale($base-color, $lightness: +16%);
+	$shadow: color.scale($base-color, $lightness: -33%);
+	$so: (-$elevation); // shadow-offset
+	$sl: $elevation + 1px;
+
+	background-color: $base-color;
+
+	box-shadow:
+		inset    0  1px    0    0 $light,
+		inset    0  $so    0    0 $shadow,
+		// Border
+		         0    0    0  1px #000000;
+}
+
+@mixin card-concave($base-color: #ccc, $elevation: 1px) {
+	$shadow: color.scale($base-color, $lightness: -33%);
+	$so: $elevation; // shadow-offset
+
+	background-color: $base-color;
+
+	box-shadow:
+		inset    0  $so    0    0 $shadow,
+		// Border
+		         0    0    0  1px #000000,
+		         0  2px    0    0 #ffffff30;
+}
+
+@mixin card-alt($base-color: #ccc, $elevation: 2px) {
+	$light:  color.scale($base-color, $lightness: +16%);
+	$shadow: color.scale($base-color, $lightness: -33%);
+	$so: $elevation; // shadow-offset
+
+	background-color: $base-color;
+
+	box-shadow:
+		inset    0 1px   0    0 color.scale($base-color, $lightness: +12%),
+		         0 1px   0    0 color.scale($base-color, $lightness: +8%),
+		         0 $so   0    0 color.scale($base-color, $lightness: -33%),
+		// Border
+		         0   0    0  1px #000000,
+		         0 $so    0  1px #000000;
+}

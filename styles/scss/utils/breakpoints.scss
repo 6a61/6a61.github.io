@@ -1,0 +1,35 @@
+// breakpoints
+// phone    < 768px;
+// tablets  >= 768px;
+// laptop   >= 1024px;
+// desktop >= 1280px
+
+@mixin phone-only {
+	@media screen and (max-width: 599px) {
+		@content;
+	}
+}
+
+@mixin tablet-portrait {
+	@media screen and (min-width: 600px) {
+		@content;
+	}
+}
+
+@mixin tablet-landscape {
+	@media screen and (min-width: 900px) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media screen and (min-width: 1200px) {
+		@content;
+	}
+}
+
+@mixin big-desktop {
+	@media screen and (min-width: 1800px) {
+		@content;
+	}
+}

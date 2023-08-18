@@ -1,135 +1,59 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<meta name="description" content="Page description" />
+		<meta name="keywords" content="keywords, separated, by, comma" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
 		<title>Juan Antonio</title>
-		<meta name="description" content="Emulating the pros since 1995+1. A personal page about nothing.">
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<script type="module" src="scripts/main.js"></script>
 	</head>
 	<body>
-		<div id="background"></div>
-		<pre id="logo">
-
+		<div id="wrapper">
+			<div>
+			<pinguin-window id="logo" movable style="width: 480px; height: 160px;">
+				<header>
+					<div id="logo-max" style="padding: 8px;"><img src="images/max-white.png" /></div>
+				</header>
+				<pre>
 ░░▒█░█░▒█░█▀▀▄░█▀▀▄░░░█▀▀▄░█▀▀▄░▀█▀░▄▀▀▄░█▀▀▄░░▀░░▄▀▀▄
 ░░▒█░█░▒█░█▄▄█░█░▒█░░▒█▄▄█░█░▒█░░█░░█░░█░█░▒█░░█▀░█░░█
-█▄▄█░░▀▀▀░▀░░▀░▀░░▀░░▒█░▒█░▀░░▀░░▀░░░▀▀░░▀░░▀░▀▀▀░░▀▀░
-		</pre>
-		<div id="chyron">
-			<template id="phrases">
-				<div>emulating the pros since 1995+1</div>
-				<div>ciao gab che trovi le mie cose</div>
-				<div>hooray procrastination!</div>
-				<div>made in italy</div>
-				<div>stay hydrated</div>
-				<div>100% edulcorant free</div>
-				<div>you know those very long dedications on the demoscene? well it's pretty much like this but even worse</div>
-				<div>this lags on firefox!</div>
-			</template>
-		</div>
-		<div id="links">
-			<a href="/blog">blog</a>
-			<a href="https://github.com/6a61">github</a>
-			<a href="/demos/w95">w95</a>
+█▄▄█░░▀▀▀░▀░░▀░▀░░▀░░▒█░▒█░▀░░▀░░▀░░░▀▀░░▀░░▀░▀▀▀░░▀▀░</pre>
+			</pinguin-window>
+			</div>
+
+			<div class="row" style="align-items: flex-start;">
+				<pinguin-window id="version" movable style="max-width: 160px;">
+					<div class="column cross-center" style="margin: 8px 0;">
+						<h1 style="margin: 0;">Pinguin</h1>
+						<div>v${ Pinguin.version }</div>
+					</div>
+					<div style="text-align: center; margin-top: 8px;">Made with
+						❤️ on a couple of summer ☀️ days.</div>
+					<div style="text-align: center; margin-top: 8px;">Pinguin
+						is penguin <span class="three-60-no-scope">🐧</span>
+						spelled wrong. And also the name of the framework
+					behind this page.</div>
+				</pinguin-window>
+				<pinguin-window id="pet" class="column">
+					<header movable class="row" style="justify-content: space-between;">
+						<div style="pointer-events: none;">Pet v${ Pet.version }</div>
+						<!-- <img src="images/question-white.png" /> -->
+					</header>
+					<canvas id="pet-canvas" width="120" height="120"></canvas>
+					<button id="pet-clean">Clean</button>
+				</pinguin-window>
+				<pinguin-window id="links">
+					<header movable>Links & Social</header>
+					<ul>
+						<li><a href="https://6a61.github.io/blog/">blog</a></li>
+						<li><a href="https://github.com/6a61/">github</a></li>
+						<li><a href="https://matrix.to/#/@6a61:matrix.org">matrix</a></li>
+						<li><a href="https://mastodon.social/@6a61">mastodon</a></li>
+					</ul>
+				</pinguin-window>
+			</div>
 		</div>
 	</body>
-	<script>
-		const phrases = document.createElement("div");
-		phrases.append(document.getElementById("phrases").content.cloneNode(true));
-
-		const marquee = document.createElement("div");
-		document.getElementById("chyron").insertBefore(marquee, document.getElementById("chyron").firstChild);
-
-		function changePhrase() {
-			const randomInt = Math.floor(Math.random() * phrases.children.length);
-			const randomPhrase = phrases.children[randomInt].textContent;
-
-			// Don't repeat phrases more than once
-
-			while (randomPhrase == marquee.textContent && phrases.children.length > 1) {
-				randomInt = Math.floor(Math.random() * phrases.children.length);
-				randomPhrase = phrases.children[randomInt].textContent;
-			}
-
-			marquee.innerHTML = "";
-
-			for (const i in randomPhrase) {
-				const c = randomPhrase[i];
-				const span = document.createElement("span");
-
-				switch (c) {
-				case ' ':
-					span.innerHTML = '&nbsp;';
-					break;
-				default:
-					span.innerHTML = c;
-					break;
-				}
-
-				span.style.animationDelay = -(20 * i) + "ms";
-
-				marquee.append(span);
-			}
-
-			const keyframes = [
-				{ transform: "translateX(100%)" },
-				{ transform: "translateX(-100%)"}
-			];
-
-			const timing = {
-				duration: Math.max(100 * marquee.childElementCount, 5000),
-				iterations: 1
-			};
-
-			marquee.animate(keyframes, timing).onfinish = () => {
-				changePhrase();
-			};
-		};
-
-		changePhrase();
-
-		//================================================================================
-
-
-		let background = document.getElementById("background");
-
-		function createStar(animationTime) {
-			let star = document.createElement("div");
-			star.className = "background-star";
-			star.textContent = "♦";
-
-			let animationDelay = Math.random() * animationTime;
-			star.style.animationDuration = animationTime + "s";
-			star.style.animationDelay = -animationDelay + "s";
-
-			return star;
-		}
-
-		for (let i = 0; i < 50; ++i) {
-			let topOffset = Math.random() * 100;
-			let star = createStar(8);
-			star.style.top = topOffset + "vh";
-
-			background.appendChild(star);
-		}
-
-		for (let i = 0; i < 100; ++i) {
-			let topOffset = Math.random() * 100;
-			let star = createStar(16);
-			star.style.top = topOffset + "vh";
-			star.style.color = "#808080";
-
-			background.appendChild(star);
-		}
-
-		for (let i = 0; i < 200; ++i) {
-			let topOffset = Math.random() * 100;
-			let star = createStar(32);
-			star.style.top = topOffset + "vh";
-			star.style.color = "#404040";
-
-			background.appendChild(star);
-		}
-
-	</script>
 </html>

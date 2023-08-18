@@ -1,0 +1,20 @@
+* { box-sizing: border-box; }
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+input, textarea, button {
+	font-family: inherit;
+	font-size: inherit;
+	outline: none;
+}
